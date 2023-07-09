@@ -27,6 +27,7 @@ export default function EmployeeForm() {
         ...setValues,
         [name]:value
     })
+    console.log(values);
   }
   return (
     <form className={classes.root}>
