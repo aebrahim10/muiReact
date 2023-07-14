@@ -1,5 +1,5 @@
 import React,{ useState } from 'react'
-import { Paper,Toolbar, makeStyles, InputAdornment } from '@material-ui/core';
+import { Paper,Toolbar, makeStyles, InputAdornment, TableCell, TableRow, TableBody } from '@material-ui/core';
 import Controls from "../EmpComponents/controls/Controls";
 //import { Search } from "@material-ui/icons";
 import Search from '@mui/icons-material/Search';
@@ -8,6 +8,9 @@ import PageHeader from '../EmpComponents/PageHeader';
 //import AddIcon from '@material-ui/icons/Add';
 import AddIcon from '@mui/icons-material/AddCircleOutline';
 import EmployeeForm from './EmployeeForm';
+import Popup from '../EmpComponents/Popup';
+import useTable from '../EmpComponents/useTable';
+import * as employeeService from '../EmpServices/employeeService'
 
 const useStyles = makeStyles(theme => ({
     pageContent: {
@@ -25,10 +28,17 @@ const useStyles = makeStyles(theme => ({
 
 
 export default function AllEmployees() {
-
+  const [records, setRecords] = useState(employeeService.getAllEmployees())
   const [recordForEdit, setRecordForEdit] = useState(null)
   const [openPopup, setOpenPopup] = useState(false)
   const [filterFn, setFilterFn] = useState({ fn: items => { return items; } })
+
+  const headCells = [
+    {id:'fullName', label:'Full Name'},
+    {id:'email', label:'Email address'},
+    {id:'mobile', label:'Mobile number'},
+    {id:'deparment', label:'Department'},
+  ]
 
   const handleSearch = e => {
     let target = e.target;
@@ -41,7 +51,9 @@ export default function AllEmployees() {
         }
     })
 }
-
+  const {
+            TblContainer, TblHead
+         } =   useTable(records, headCells)
   const classes = useStyles();
   
   return (
@@ -51,12 +63,12 @@ export default function AllEmployees() {
     subTitle="Form design with validation"
     icon={<PeopleOutlineIcon fontSize="large" />}  />
 
-    <Paper className={classes.pageContent}>
-        <EmployeeForm />
-    </Paper>
-
-
     {/* <Paper className={classes.pageContent}>
+        <EmployeeForm />
+    </Paper> */}
+
+
+   <Paper className={classes.pageContent}>
     <Toolbar>
         <Controls.Input
             label="Search Employees"
@@ -76,7 +88,26 @@ export default function AllEmployees() {
             onClick={() => { setOpenPopup(true); setRecordForEdit(null); }}
         />
     </Toolbar>
-    </Paper> */}
+     <TblContainer>
+        <TblHead />
+        <TableBody>{
+            records.map(record =>(<TableRow> 
+                                    <TableCell>{record.fullName}</TableCell>
+                                    <TableCell>{record.email}</TableCell>
+                                    <TableCell>{record.mobile}</TableCell>
+                                    <TableCell>{record.department}</TableCell>
+                  
+                                  </TableRow> ))}
+            
+
+        </TableBody>
+     </TblContainer>
+    </Paper> 
+     <Popup title='Employee Form' openPopup={openPopup} setOpenPopup={setOpenPopup}>
+       <EmployeeForm />
+
+     </Popup>
+
 
 
   </>

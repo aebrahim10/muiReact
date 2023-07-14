@@ -50,9 +50,10 @@ export default function EmployeeForm() {
   const handleInputChange = e =>{
     const {name, value} = e.target 
         setValues({
-            ...setValues,
+            ...values,
             [name]:value
         })
+        console.log("Values in handleInputChange", values)
   }
   const resetForm = () =>{
     setValues(initValues);
@@ -64,22 +65,21 @@ export default function EmployeeForm() {
     console.log("Errors in SubmitFn========================= ",errors);
     if (validate()){
           window.alert("testing ...")
+          employeeService.insertEmployee(values)
     }
   }
   return (
-    <form className={classes.root} onSubmit={handleSubmit}>
+    <form className={classes.root} onSubmit={handleSubmit} autoComplete="off">
         <Grid container>
             <Grid item xs={6}>
-            {/* <TextField  variant="outlined" name='fullName' label='Full Name' value={values.fullName}  onChange={handleInputChange} />
-            <TextField  variant="outlined" name='email' label='Email' value={values.email} onChange={handleInputChange} />  */}
-                <Controls.Input name='fullName' label='Full Name' value={values.fullName} 
-                 onChange={handleInputChange} error={errors.fullName}/>       
+                 <Controls.Input name='fullName' label='Full Name' value={values.fullName} 
+                      onChange={handleInputChange} error={errors.fullName}/>       
                 <Controls.Input name='email' label='Email' value={values.email} 
-                  onChange={handleInputChange} error={errors.email}/>
+                      onChange={handleInputChange} error={errors.email}/>
                   <Controls.Input name='mobile' label='Mobile' value={values.mobile}
-                  onChange={handleInputChange} error={errors.mobile} />
+                      onChange={handleInputChange} error={errors.mobile} />
                   <Controls.Input name='city' label='City' value={values.city}
-                  onChange={handleInputChange} />
+                      onChange={handleInputChange} />
             </Grid>
             <Grid item xs={6}>
                <Controls.RadioGroup name='gender' value={values.gender} label='Gender' items={genderItems} 
