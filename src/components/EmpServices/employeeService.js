@@ -28,7 +28,7 @@ export function getAllEmployees(){
   let departments = getDepartmentCollection();
   return employees.map(x=>({ 
        ...x,
-      department: departments[x.departmentId].title
+      department: departments[x.departmentId-1].title
     }))
 }
 

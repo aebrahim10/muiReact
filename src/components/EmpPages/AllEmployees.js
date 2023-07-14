@@ -52,8 +52,8 @@ export default function AllEmployees() {
     })
 }
   const {
-            TblContainer, TblHead
-         } =   useTable(records, headCells)
+            TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting
+         } = useTable(records, headCells)
   const classes = useStyles();
   
   return (
@@ -91,17 +91,17 @@ export default function AllEmployees() {
      <TblContainer>
         <TblHead />
         <TableBody>{
-            records.map(record =>(<TableRow> 
+            recordsAfterPagingAndSorting().map(record =>(<TableRow> 
                                     <TableCell>{record.fullName}</TableCell>
                                     <TableCell>{record.email}</TableCell>
                                     <TableCell>{record.mobile}</TableCell>
                                     <TableCell>{record.department}</TableCell>
-                  
                                   </TableRow> ))}
             
 
         </TableBody>
      </TblContainer>
+     <TblPagination />
     </Paper> 
      <Popup title='Employee Form' openPopup={openPopup} setOpenPopup={setOpenPopup}>
        <EmployeeForm />
