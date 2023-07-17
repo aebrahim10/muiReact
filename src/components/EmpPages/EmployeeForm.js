@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { makeStyles, Grid, } from '@material-ui/core';
 import Controls from './../EmpComponents/controls/Controls';
 import * as employeeService from '../EmpServices/employeeService'
@@ -25,7 +25,8 @@ const initValues ={
     hireDate: new Date(),
     isPermanent: false
 }
-export default function EmployeeForm() {
+export default function EmployeeForm(props) {
+  const {addOrEdit, recordForEdit} = props
   const classes = useStyles();
   const [values, setValues] = useState(initValues);
   const [errors, setErrors] = useState({})
@@ -48,13 +49,16 @@ export default function EmployeeForm() {
     return Object.values(temp).every(x => x == "")
   }
   const handleInputChange = e =>{
+    let validateOnChange=true
     const {name, value} = e.target 
         setValues({
             ...values,
             [name]:value
         })
-        console.log("Values in handleInputChange", values)
+        if (validateOnChange)
+        validate({ [name]: value })
   }
+  
   const resetForm = () =>{
     setValues(initValues);
     setErrors({})
@@ -64,10 +68,13 @@ export default function EmployeeForm() {
     console.log("Values in SubmitFn========================= ",values);
     console.log("Errors in SubmitFn========================= ",errors);
     if (validate()){
-          window.alert("testing ...")
-          employeeService.insertEmployee(values)
+        addOrEdit(values, resetForm)
     }
   }
+  useEffect(()=>{
+    if (recordForEdit != null)
+        setValues({...recordForEdit})  
+  }, [recordForEdit])
   return (
     <form className={classes.root} onSubmit={handleSubmit} autoComplete="off">
         <Grid container>
@@ -82,8 +89,8 @@ export default function EmployeeForm() {
                       onChange={handleInputChange} />
             </Grid>
             <Grid item xs={6}>
-               <Controls.RadioGroup name='gender' value={values.gender} label='Gender' items={genderItems} 
-                  onchange={handleInputChange} />
+               <Controls.RadioGroup name='gender' label='Gender' value={values.gender} items={genderItems} 
+                  onChange={handleInputChange} />
                <Controls.Select name='departmentId' value={values.departmentId} label="Department" 
                   onChange={handleInputChange} options={employeeService.getDepartmentCollection()} />
                <Controls.DatePicker name='hireDate' value={values.hireDate} label='Date employed'

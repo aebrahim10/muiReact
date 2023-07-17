@@ -1,14 +1,13 @@
 import React,{ useState } from 'react'
 import { Paper,Toolbar, makeStyles, InputAdornment, TableCell, TableRow, TableBody } from '@material-ui/core';
 import Controls from "../EmpComponents/controls/Controls";
-//import { Search } from "@material-ui/icons";
-import Search from '@mui/icons-material/Search';
+import Search from "@material-ui/icons/Search";
+//import Search from '@mui/icons-material/Search';
 import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
 import PeopleOutlineTwoToneIcon from '@material-ui/icons/PeopleOutlineTwoTone';
 import PageHeader from '../EmpComponents/PageHeader';
-//import AddIcon from '@material-ui/icons/Add';
-import AddIcon from '@mui/icons-material/AddCircleOutline';
-// import AddIcon from '@material-ui/icons/Add';
+//import AddIcon from '@mui/icons-material/AddCircleOutline';
+import AddIcon from '@material-ui/icons/Add';
 import EmployeeForm from './EmployeeForm';
 import Popup from '../EmpComponents/Popup';
 import useTable from '../EmpComponents/useTable';
@@ -31,7 +30,6 @@ const useStyles = makeStyles(theme => ({
         right: '10px'
     }
 }))
-
 
 const headCells = [
     { id: 'fullName', label: 'Employee Name' },
@@ -88,6 +86,7 @@ export default function Employees() {
 
     const openInPopup = item => {
         setRecordForEdit(item)
+        console.log("in openInPopup recordForEdit = ", recordForEdit)
         setOpenPopup(true)
     }
 
@@ -107,13 +106,37 @@ export default function Employees() {
 
     return (
         <>
+            {/* <PageHeader
+                title="New Employee"
+                subTitle="Form design with validation"
+                icon={<PeopleOutlineTwoToneIcon fontSize="large" />}
+            />
+            <Paper className={classes.pageContent}>
+                <Toolbar>
+                    <Controls.Input
+                        label="Search Employees"
+                        className={classes.searchInput}
+                        InputProps={{
+                            startAdornment: (<InputAdornment position="start">
+                                <Search />
+                            </InputAdornment>)
+                        }}
+                        onChange={handleSearch}
+                    />
+                    <Controls.Button
+                        text="Add New"
+                        variant="outlined"
+                        startIcon={<AddIcon />}
+                        className={classes.newButton}
+                        onClick={() => { setOpenPopup(true); setRecordForEdit(null); }}
+                    />
+                </Toolbar> */}
             <PageHeader
                 title="New Employee"
                 subTitle="Form design with validation"
                 icon={<PeopleOutlineTwoToneIcon fontSize="large" />}
             />
             <Paper className={classes.pageContent}>
-
                 <Toolbar>
                     <Controls.Input
                         label="Search Employees"
@@ -151,7 +174,7 @@ export default function Employees() {
                                         </Controls.ActionButton>
                                         <Controls.ActionButton
                                             color="secondary"
-                                            onClick={() => {
+                                            onClick={() => { 
                                                 setConfirmDialog({
                                                     isOpen: true,
                                                     title: 'Are you sure to delete this record?',
@@ -172,11 +195,10 @@ export default function Employees() {
             <Popup
                 title="Employee Form"
                 openPopup={openPopup}
-                setOpenPopup={setOpenPopup}
-            >
-                <EmployeeForm
-                    recordForEdit={recordForEdit}
-                    addOrEdit={addOrEdit} />
+                setOpenPopup={setOpenPopup}>
+                    <EmployeeForm
+                        recordForEdit={recordForEdit}
+                        addOrEdit={addOrEdit} />
             </Popup>
             <Notification
                 notify={notify}
