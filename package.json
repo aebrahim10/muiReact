@@ -8,10 +8,6 @@
     "@emotion/styled": "^11.10.0",
     "@material-ui/core": "4.12.4",
     "@material-ui/icons": "^4.11.3",
-<<<<<<< HEAD
-=======
-    "@material-ui/lab": "^4.0.0-alpha.61",
->>>>>>> 64a3301512b611f48843703529a9786ae3a58a7e
     "@material-ui/pickers": "^3.3.10",
     "@mui/icons-material": "^5.8.4",
     "@mui/material": "^5.10.0",
